@@ -1,17 +1,19 @@
 from config import db
 
 class Animal(db.Model):
-    name = db.Column(db.String(80))
-    topSpeed = db.Column(db.String(80))
-    lifeSpan = db.Column(db.Sring(80))
-    weight = db.Column(db.String(80))
-    height = db.Column(db.String(80))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+    topSpeed = db.Column(db.String(30))
+    height = db.Column(db.String(30))
+    weight = db.Column(db.String(30))
+    lifeSpan = db.Column(db.String(30))
 
     def toJson(self):
         return {
-            "name": self.name,
-            "topSpeed": self.topSpeed,
-            "lifeSpan": self.lifeSpan,
-            "weight": self.weight,
-            "height": self.height,
+            "id" : self.id,
+            "name" : self.name,
+            "topSpeed" : self.topSpeed,
+            "height" : self.height,
+            "weight" : self.weight,
+            "lifeSpan" : self.lifeSpan,
         }
