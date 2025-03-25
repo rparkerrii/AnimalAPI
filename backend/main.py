@@ -20,7 +20,7 @@ def enterAnimal():
     topSpeed = data[0]["characteristics"]["top_speed"]
     height = data[0]["characteristics"]["height"]
     weight = data[0]["characteristics"]["weight"]
-    lifeSpan = data[0]["characteristics"]["lifeSpan"]
+    lifeSpan = data[0]["characteristics"]["lifespan"]
     if not name:
         return jsonify({"message": "Animal not found."})
 

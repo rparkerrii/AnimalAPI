@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import AnimalList from "./AnimalList.jsx";
 import './App.css'
+import AnimalForm from './AnimalForm.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [animal, setAnimal] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentAnimal, setCurrentAnimal] = useState({})
+
+
+  useEffect(() => {
+    fetchAnimal()
+  }, []);
+  
+  const fetchAnimal = async () => {
+    const response = await fetch("http://127.0.0.1:5000/animal-info")
+    const data = await response.json()
+    setAnimal(data.animal)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setCurrentAnimal({})
+  }
+
+  const openCreateModal = () => {
+    if (!isModalOpen) setIsModalOpen(true)
+  }
+
+  const openEditModal = (animal) => {
+    if (isModalOpen) return
+    setCurrentAnimal(animal)
+    setIsModalOpen(true)
+  }
+
+  const onUpdate = () => {
+    closeModal()
+    fetchAnimal()
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <AnimalList animal={animal} updateAnimal={openEditModal} updateCallback={onUpdate} />
+      <button onClick={openCreateModal}>Enter Animal Name</button>
+      {isModalOpen && <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={closeModal}>&times;</span>
+          <AnimalForm existingAnimal={currentAnimal} updateCallback={onUpdate} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      }
     </>
-  )
+  );
 }
 
-export default App
+export default App;
