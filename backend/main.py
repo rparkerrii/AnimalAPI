@@ -21,14 +21,14 @@ def enterAnimal():
 
     try:
         name = data[0]["name"]
-        topSpeed = data[0]["characteristics"]["top_speed"]
     except Exception as e:
         return jsonify({"message": "Animal not found."}), 400
-
-    height = data[0]["characteristics"].get("height", "none")
-    length = data[0]["characteristics"].get("length", "none")
-    weight = data[0]["characteristics"]["weight"]
-    lifeSpan = data[0]["characteristics"]["lifespan"]
+    
+    topSpeed = data[0]["characteristics"].get("height", "Not Found")
+    height = data[0]["characteristics"].get("height", "Not Found")
+    length = data[0]["characteristics"].get("length", "Not Found")
+    weight = data[0]["characteristics"].get("weight", "Not Found")
+    lifeSpan = data[0]["characteristics"].get("weight", "Not Found")
 
     newAnimal = Animal(name=name, topSpeed=topSpeed, height=height, length=length, weight=weight, lifeSpan=lifeSpan)
     try:
