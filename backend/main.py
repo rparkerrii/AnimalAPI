@@ -12,19 +12,25 @@ def getAnimalInfo():
 @app.route("/enter-animal", methods=["POST"])
 def enterAnimal():
     name = request.json.get("name")
+    if not name:
+        return jsonify({"message": "Please enter an animal name."}), 400
+    
     api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(name)
     response = requests.get(api_url, headers={'X-Api-Key': ''})
     data = response.json()
 
-    name = data[0]["name"]
-    topSpeed = data[0]["characteristics"]["top_speed"]
-    height = data[0]["characteristics"]["height"]
+    try:
+        name = data[0]["name"]
+        topSpeed = data[0]["characteristics"]["top_speed"]
+    except Exception as e:
+        return jsonify({"message": "Animal not found."}), 400
+
+    height = data[0]["characteristics"].get("height", "none")
+    length = data[0]["characteristics"].get("length", "none")
     weight = data[0]["characteristics"]["weight"]
     lifeSpan = data[0]["characteristics"]["lifespan"]
-    if not name:
-        return jsonify({"message": "Animal not found."})
 
-    newAnimal = Animal(name=name, topSpeed=topSpeed, height=height, weight=weight, lifeSpan=lifeSpan)
+    newAnimal = Animal(name=name, topSpeed=topSpeed, height=height, length=length, weight=weight, lifeSpan=lifeSpan)
     try:
         db.session.add(newAnimal)
         db.session.commit()

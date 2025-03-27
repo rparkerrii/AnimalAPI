@@ -25,6 +25,7 @@ const AnimalList = ({ animal, updateAnimal, updateCallback }) => {
                     <th>Animal Name</th>
                     <th>Top Speed</th>
                     <th>Height</th>
+                    <th>Length</th>
                     <th>Weight</th>
                     <th>Life Span</th>
                     <th>Actions</th>
@@ -36,6 +37,7 @@ const AnimalList = ({ animal, updateAnimal, updateCallback }) => {
                         <td>{animal.name}</td>
                         <td>{animal.topSpeed}</td>
                         <td>{animal.height}</td>
+                        <td>{animal.length}</td>
                         <td>{animal.weight}</td>
                         <td>{animal.lifeSpan}</td>
                         <td>
